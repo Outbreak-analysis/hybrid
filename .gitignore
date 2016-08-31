@@ -1,0 +1,8 @@
+
+*~
+*.RData
+.*
+*.wrapR.r
+makestuff/
+*.Rout
+*.buggen
