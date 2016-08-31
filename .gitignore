@@ -6,3 +6,4 @@
 makestuff/
 *.Rout
 *.buggen
+*.nimcode

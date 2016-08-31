@@ -10,13 +10,13 @@ Sources += Makefile stuff.mk
 include stuff.mk
 -include $(ms)/git.def
 
-sim.%.Rout: parameters.CBB.R name.R simulate.R
+sim.%.Rout: parameters.CBB.R name.R simulate.CBB.R
 	$(run-R)
 
 bugstemp.%.Rout: name.R parameters.CBB.R process.R observations.R bugstemp.R
 	$(run-R)
 
-fit.%.Rout: names.R sim.%.Rout bugstemp.%.Rout fit.R
+fit.%.Rout: name.R sim.%.Rout bugstemp.%.Rout fit.R
 	$(run-R)
 
 

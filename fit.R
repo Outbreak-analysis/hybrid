@@ -23,7 +23,7 @@ params <- c("R0","effprop","repprop")
 # 
 # nimble is not picking up the conjugate beta priors for nimble
 
-source(paste(rtargetname,".nimcode",sep=""))
+source(paste("bugstemp",type,process,observation,seed,iterations,"nimcode",sep="."))
 
 FitModel <- MCMCsuite(code=nimcode,
                       data=nimdata,
