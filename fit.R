@@ -16,7 +16,7 @@ niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,
 
 if(observation == "nb"){
   niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop, 
-                               initDis=initDis, repShape=0.1)
+                               initDis=initDis,N0, repShape=0.1)
 }
 
 params <- c("R0","effprop","repprop")
