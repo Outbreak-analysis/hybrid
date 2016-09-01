@@ -2,7 +2,6 @@ priors <- c("
       #prior
       repprop ~ dbeta(1,1)
       effprop ~ dbeta(1,1)
-      initDis ~ dbeta(1,1)
             
       R0 ~ dunif(0,5)
       N0 ~ dbin(effprop,N)
