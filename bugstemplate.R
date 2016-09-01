@@ -4,8 +4,8 @@ priors <- c("
       effprop ~ dbeta(1,1)
       initDis ~ dbeta(1,1)
             
-      R0 ~ dgamma(0.1,0.1)
-      N0 ~ dbinom(effprop,N)
+      R0 ~ dunif(0,5)
+      N0 <- effprop*N
       "
 )
 

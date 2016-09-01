@@ -3,7 +3,12 @@
 *.RData
 .*
 *.wrapR.r
+*.wrapR.rout
+*.Rlog
 makestuff/
 *.Rout
 *.buggen
 *.nimcode
+*.data.R
+*.init.R
+*.stan

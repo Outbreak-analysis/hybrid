@@ -15,4 +15,14 @@ if(observation == "p"){
       obs[t] ~ dpois(I[t])")
 }
 
+if(observation == "nb"){
+  observation_code <- c("
+      repShape ~ dgamma(1,1)
+      obsMean[1] ~ dgamma(repShape,(repShape/I[1]))
+      obs[1] ~ dpois(obsMean[1])"
+                        , "
+      obsMean[t] ~ dgamma(repShape,(repShape/I[t]))
+      obs[t] ~ dpois(obsMean[t])")
+}
+
 

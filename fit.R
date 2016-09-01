@@ -11,9 +11,13 @@ nimcon <- lme4:::namedList(numobs
                            , i0
 )
 
-niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0, 
+niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, 
                              initDis=initDis)
 
+if(observation == "nb"){
+  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop, 
+                               initDis=initDis, repShape=0.1)
+}
 
 params <- c("R0","effprop","repprop")
 
@@ -23,13 +27,21 @@ params <- c("R0","effprop","repprop")
 # 
 # nimble is not picking up the conjugate beta priors for nimble
 
-source(paste("bugstemp",type,process,observation,seed,iterations,"nimcode",sep="."))
+source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
+mcmcs <- c("jags","nimble","nimble_slice") 
+stanmod <- NULL
+if(type=="hyb"){
+  mcmcs <- c("jags","nimble","nimble_slice","stan")
+  stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
+}
+
 
 FitModel <- MCMCsuite(code=nimcode,
                       data=nimdata,
                       inits=niminits,
                       constants=nimcon,
-                      MCMCs=c("jags","nimble","nimble_slice"),
+                      MCMCs=mcmcs,
+                      stan_model=stanmod,
                       monitors=params,
                       calculateEfficiency=TRUE,
                       niter=iterations,

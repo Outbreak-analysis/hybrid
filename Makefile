@@ -13,15 +13,15 @@ include stuff.mk
 sim.%.Rout: parameters.CBB.R name.R simulate.CBB.R
 	$(run-R)
 
-bugstemp.%.Rout: name.R parameters.CBB.R process.R observations.R bugstemp.R
+templates.%.Rout: sim.%.Rout name.R parameters.CBB.R process.R observations.R bugstemplate.R stantemplate.R 	
 	$(run-R)
 
-fit.%.Rout: name.R sim.%.Rout bugstemp.%.Rout fit.R
+fit.%.Rout: name.R sim.%.Rout templates.%.Rout fit.R
 	$(run-R)
 
 
 clean:
-	rm *.nimble.R *.buggen *.wrapR.r *.Rout
+	rm *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode
 
 #############
 Sources += $(wildcard *.R *.bug)
