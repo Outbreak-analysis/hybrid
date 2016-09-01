@@ -24,7 +24,7 @@ if(process == "b"){
       ,"
       SIGrate[t] <- 1/(1-pSI[t-1])
       SIGshape[t] <- pSI[t-1]*S[t-1]*SIGrate[t]/repprop
-      I[t] ~ dgamma(SIGshape[t],SIGrate[t])
+      I[t] ~ dgamma(SIGshape[t],1/SIGrate[t])
       pSI[t] <- 1 - exp(-I[t]*beta)
       "
     )
