@@ -19,6 +19,7 @@ templates.%.Rout: sim.%.Rout name.R parameters.CBB.R process.R observations.R bu
 fit.%.Rout: name.R sim.%.Rout templates.%.Rout fit.R
 	$(run-R)
 
+all: fit.dis.b.p.1.4000.Rout fit.dis.b.b.1.4000.Rout dis.b.nb.1.4000.Rout hyb.b.p.1.4000.Rout hyb.b.nb.1.4000.Rout
 
 clean:
 	rm *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout 
