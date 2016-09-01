@@ -44,7 +44,7 @@ if(process == "bb"){
     )
   }
   if(type == "hyb"){
-    process_code <- c("I[1] ~ dgamma(i0,1/repprop)
+    process_code <- c("I[1] ~ dgamma(i0,repprop)
                       beta <- R0/N0
                       pSI[1] <- 1 - exp(-I[1]*beta)
                       "
