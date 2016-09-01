@@ -5,7 +5,7 @@ priors <- c("
       initDis ~ dbeta(1,1)
             
       R0 ~ dunif(0,5)
-      N0 <- effprop*N
+      N0 ~ dbin(effprop,N)
       "
 )
 

@@ -29,7 +29,7 @@ params <- c("R0","effprop","repprop")
 
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
 mcmcs <- c("jags","nimble","nimble_slice") 
-stanmod <- NULL
+stanmod <- ""
 if(type=="hyb"){
   mcmcs <- c("jags","nimble","nimble_slice","stan")
   stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")

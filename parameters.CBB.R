@@ -1,8 +1,8 @@
-R0 <- 1.5
+R0 <- 2
 N <- 10000
 i0 <- 1
-effprop <- 0.75
-repprop <- 0.4
+effprop <- 0.77
+repprop <- 0.7
 repSize <- 5
 
 eps <-0.0001

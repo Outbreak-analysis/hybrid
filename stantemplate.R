@@ -11,6 +11,7 @@ cat("obs = c(",sim$Iobs[1],sub("",",",sim$Iobs[-1]),")"
     , "\n" ,"N = ",N
     , "\n" , "numobs =", numobs
     , "\n" , "i0 = ", i0
+    , "\n" , "N0 = ", N0
     # , "\n" , "eps = ", eps
     , file = paste(process,observation,seed,iterations,"data.R",sep=".")
 )
@@ -21,6 +22,7 @@ int<lower=0> numobs; // number of data points
     int obs[numobs]; // response
     int N;
     int i0;
+    int N0;
     real eps;
     }
     parameters {
@@ -34,11 +36,10 @@ int<lower=0> numobs; // number of data points
     vector[numobs] pSI;
     vector[numobs] SIGrate;
     vector[numobs] SIGshape;
-    real N0;
     real BETA;
     effprop ~ beta(1,1);
     repprop ~ beta(1,1);
-    N0 = N*effprop;
+    N0 ~ binomial(N,effprop);
     BETA = R0/N0;
     I[1] ~ gamma(i0,1/repprop);
     S[1] = N0/repprop - I[1];

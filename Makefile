@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: fit.hyb.b.p.1.4000.Rout 
+target pngtarget pdftarget vtarget acrtarget: fit.dis.b.p.1.4000.Rout 
 
 ##################################################################
 
@@ -21,7 +21,7 @@ fit.%.Rout: name.R sim.%.Rout templates.%.Rout fit.R
 
 
 clean:
-	rm *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode
+	rm *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout 
 
 #############
 Sources += $(wildcard *.R *.bug)
