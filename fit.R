@@ -12,7 +12,7 @@ nimcon <- lme4:::namedList(numobs
 )
 
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, 
-                             initDis=initDis)
+                             initDis=initDis, N0)
 
 if(observation == "nb"){
   niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop, 
