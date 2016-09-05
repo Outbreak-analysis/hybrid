@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: fit.dis.b.p.1.4000.Rout 
+target pngtarget pdftarget vtarget acrtarget: fit.dis.b.nb.1.4000.Rout
 
 ##################################################################
 
@@ -20,6 +20,10 @@ fit.%.Rout: name.R sim.%.Rout templates.%.Rout fit.R
 	$(run-R)
 
 all: fit.dis.b.p.1.4000.Rout fit.dis.b.b.1.4000.Rout fit.dis.b.nb.1.4000.Rout fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
+
+all.dis: fit.dis.b.b.1.4000.Rout fit.dis.b.p.1.4000.Rout fit.dis.b.nb.1.4000.Rout
+
+all.hyb: fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
 
 clean:
 	rm *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout 

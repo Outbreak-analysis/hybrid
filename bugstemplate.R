@@ -1,9 +1,9 @@
 priors <- c("
       #prior
-      repprop ~ dbeta(1,1)
-      effprop ~ dbeta(1,1)
+      effprop ~ dbeta(9,2)
+      repprop ~ dbeta(9,9)
             
-      R0 ~ dunif(0,5)
+      R0 ~ dgamma(2,1)
       N0 ~ dbin(effprop,N)
       "
 )

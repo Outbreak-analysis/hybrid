@@ -11,12 +11,10 @@ nimcon <- lme4:::namedList(numobs
                            , i0
 )
 
-niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, 
-                             initDis=initDis, N0)
+niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, N0)
 
 if(observation == "nb"){
-  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop, 
-                               initDis=initDis,N0, repShape=0.1)
+  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape=0.1)
 }
 
 params <- c("R0","effprop","repprop")
