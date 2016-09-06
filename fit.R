@@ -12,6 +12,11 @@ if(observation == "nb"){
   niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape=0.1)
 }
 
+if(observation == "bb"){
+  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0,repobsa=0.1,repobsb=0.1)
+  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize=10)
+  }
+
 params <- c("R0","effprop","repprop")
 
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))

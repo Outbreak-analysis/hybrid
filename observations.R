@@ -25,4 +25,12 @@ if(observation == "nb"){
       obs[t] ~ dpois(obsMean[t])")
 }
 
-
+if(observation == "bb"){
+  observation_code <- c("
+      repobsa ~ dgamma(repobsSize/(1-repprop), 1)
+	    repobsb ~ dgamma(repobsSize/repprop, 1)
+      reporting <- repobsa/(repobsa + repobsb)
+      obs[1] ~ dbin(reporting,I[1])"
+                        , "
+      obs[t] ~ dbin(reporting,I[t])")
+}
