@@ -1,0 +1,44 @@
+---
+title: "Moment Matching"
+author: "Michael Li"
+date: "September 6, 2016"
+output: html_document
+---
+
+We used the $Gamma(\kappa,\theta)$ as the candidate _hybridizing_ distribution where $\kappa$ is the _shape_ parameter and $\theta$ is the _rate_ parameter.
+
+### Binomial(_n_,_p_) where _n_ is the size and _p_ is the probability 
+
+$\frac{\kappa}{\theta} = np$
+
+$\frac{\kappa}{\theta^{2}} = np(1-p)$
+
+$\theta = \frac{1}{(1-p)}$
+
+$\kappa = \theta np$
+
+### Beta-binomial($n,\alpha,\beta$) where  $\alpha, \beta$ are shape parameters and _n_ is the size.
+
+$\frac{\kappa}{\theta} = \frac{n\alpha}{\alpha + \beta}$
+
+$\frac{\kappa}{\theta^{2}} = \frac{n\alpha \beta (\alpha + \beta + n)}{(\alpha + \beta)^{2} (\alpha + \beta + 1)}$
+
+$\theta = \frac{(\alpha + \beta)(\alpha + \beta + 1)}{\beta (\alpha + \beta + n)}$
+
+$\kappa = \frac{n \alpha \theta}{\alpha + \beta}$
+
+### Poisson($\lambda$)
+
+$\frac{\kappa}{\theta} = \lambda$
+
+$\frac{\kappa}{\theta^{2}} = \lambda$
+
+$\theta = 1$
+
+$\kappa = \lambda$
+
+### Negative-Binomial($\mu,\delta$) via gamma-Poisson mixture, where $\mu$ is the mean (_np_) and $\delta$ is a dispersion parameter
+
+$\kappa = \delta$
+
+$\theta = \frac{\delta}{\mu}$
