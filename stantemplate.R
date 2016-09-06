@@ -1,6 +1,6 @@
 if(process == "b"){
 if(observation == "p"){
-cat("I = c(",sim$I[1],sub("",",",sim$I[-1]),")"
+cat("I = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
     , "\n" ,"effprop = ",effprop
     , "\n" , "R0 =", R0
     , "\n" , "repprop = ", repprop
@@ -43,7 +43,7 @@ int<lower=0> numobs; // number of data points
     N0 ~ binomial(N,effprop);
     BETA = R0/N0;
     I[1] ~ gamma(i0,1/repprop);
-    S[1] = N0/repprop - I[1];
+    S[1] = N0*repprop - I[1];
     pSI[1] = 1 - exp(-I[1]*BETA);
     obs[1] ~ poisson(I[1]);
     SIGrate[1] = 0.1;

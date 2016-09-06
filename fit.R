@@ -32,14 +32,17 @@ mcmcs <- c("jags"
            ) 
 stanmod <- ""
 if(type=="hyb"){
+  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0)
   mcmcs <- c("jags"
-              # ,"nimble"
-              # ,"nimble_slice"
-             # ,"stan"
+               ,"nimble"
+               ,"nimble_slice"
+               ,"stan"
              )
   stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
 }
 
+aa <- nimbleModel(code=nimcode,constants=nimcon,data=nimdata,inits=niminits)
+bb <- aa$getGraph()
 
 FitModel <- MCMCsuite(code=nimcode,
                       data=nimdata,
