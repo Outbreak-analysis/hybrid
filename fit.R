@@ -8,19 +8,30 @@ nimcon <- lme4:::namedList(numobs ,N ,i0)
 
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, N0)
 
+if(process == "bb"){
+  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0
+                               , pSIa=rep(0.1,numobs)
+                               , pSIb=rep(0.1,numobs))
+  nimcon <- lme4:::namedList(numobs ,N ,i0, pSISize, eps)
+}
+
 if(observation == "nb"){
   niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape)
 }
 
 if(observation == "bb"){
-  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0,repobsa,repobsb)
-  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize)
+  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0,repobsa,repobsb
+                               , pSIa=rep(0.1,numobs)
+                               , pSIb=rep(0.1,numobs))
+  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize,pSISize, eps)
   }
 
 params <- c("R0","effprop","repprop")
 
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
-mcmcs <- c("jags","nimble","nimble_slice") 
+mcmcs <- c(#"jags"
+           "nimble"
+           ,"nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
   niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0)

@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: fit.dis.b.bb.1.4000.Rout
+target pngtarget pdftarget vtarget acrtarget: fit.dis.bb.b.1.4000.Rout
 
 ##################################################################
 
