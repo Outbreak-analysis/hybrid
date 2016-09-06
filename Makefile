@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: all.dis
+target pngtarget pdftarget vtarget acrtarget: all.hyb
 
 ##################################################################
 
@@ -23,7 +23,7 @@ all: fit.dis.b.p.1.4000.Rout fit.dis.b.b.1.4000.Rout fit.dis.b.nb.1.4000.Rout fi
 
 all.dis: fit.dis.bb.b.1.4000.Rout fit.dis.bb.p.1.4000.Rout fit.dis.bb.nb.1.4000.Rout fit.dis.bb.bb.1.4000.Rout
 
-all.hyb: fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
+all.hyb: fit.hyb.bb.p.1.4000.Rout fit.hyb.bb.nb.1.4000.Rout
 
 clean:
 	rm -f *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout 

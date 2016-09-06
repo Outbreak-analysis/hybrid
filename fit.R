@@ -41,9 +41,9 @@ if(type=="hyb"){
   mcmcs <- c("jags"
                ,"nimble"
                ,"nimble_slice"
-               ,"stan"
+               # ,"stan"
              )
-  stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
+  # stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
 }
 
 aa <- nimbleModel(code=nimcode,constants=nimcon,data=nimdata,inits=niminits)
