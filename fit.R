@@ -9,7 +9,7 @@ nimcon <- lme4:::namedList(numobs ,N ,i0)
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, N0)
 
 if(observation == "nb"){
-  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape=0.1)
+  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape)
 }
 
 if(observation == "bb"){
@@ -23,7 +23,7 @@ source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep=
 mcmcs <- c("jags","nimble","nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
-  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0,repShape=0.1)
+  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0)
   if(observation == "nb"){
     niminits <- lme4:::namedList(I=sim$I*repprop,obsMean=sim$I*repprop,effprop,R0,repprop,N0, repShape)
   }

@@ -12,7 +12,6 @@ cat("obs = c(",sim$Iobs[1],sub("",",",sim$Iobs[-1]),")"
     , "\n" , "numobs =", numobs
     , "\n" , "i0 = ", i0
     , "\n" , "N0 = ", N0
-    # , "\n" , "eps = ", eps
     , file = paste(process,observation,seed,iterations,"data.R",sep=".")
 )
 
@@ -23,7 +22,6 @@ int<lower=0> numobs; // number of data points
     int N;
     int i0;
     int N0;
-    real eps;
     }
     parameters {
     real <lower=0> R0;
@@ -80,7 +78,6 @@ if(observation == "nb"){
       , "\n" ,"N = ",N
       , "\n" , "numobs =", numobs
       , "\n" , "i0 = ", i0
-      # , "\n" , "eps = ", eps
       , file = paste(process,observation,seed,iterations,"data.R",sep=".")
   )
   
@@ -90,7 +87,6 @@ if(observation == "nb"){
       int obs[numobs]; // response
       int N;
       int i0;
-      real eps;
 }
 parameters {
 real <lower=0> R0;
