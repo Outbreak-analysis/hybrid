@@ -26,10 +26,17 @@ params <- c("R0","effprop","repprop")
 # nimble is not picking up the conjugate beta priors for nimble
 
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
-mcmcs <- c("jags","nimble","nimble_slice") 
+mcmcs <- c("jags"
+            ,"nimble"
+            ,"nimble_slice"
+           ) 
 stanmod <- ""
 if(type=="hyb"){
-  mcmcs <- c("jags","nimble","nimble_slice","stan")
+  mcmcs <- c("jags"
+              # ,"nimble"
+              # ,"nimble_slice"
+             # ,"stan"
+             )
   stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
 }
 
