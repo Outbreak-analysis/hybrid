@@ -68,7 +68,7 @@ stanmod = paste(process,observation,seed,iterations,"stan",sep=".")
 if(observation == "nb"){
   
   cat("I = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
-      , "\n" , "obsMean = c(",sim$I[1],sub("",",",sim$I[-1]),")"
+      , "\n" , "obsMean = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
       , "\n" ,"effprop = ",effprop
       , "\n" , "R0 =", R0
       , "\n" , "repprop = ", repprop
