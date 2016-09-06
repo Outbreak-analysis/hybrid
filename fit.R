@@ -2,14 +2,9 @@ library(methods)
 library(coda)
 library(nimble)
 
-# iterations=2000
-##options(mc.cores = parallel::detectCores())
 nimbleOptions(verifyConjugatePosteriors=TRUE)
 nimdata <- lme4:::namedList(obs=sim$Iobs)
-nimcon <- lme4:::namedList(numobs
-                           , N
-                           , i0
-)
+nimcon <- lme4:::namedList(numobs ,N ,i0)
 
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, N0)
 
@@ -19,20 +14,14 @@ if(observation == "nb"){
 
 params <- c("R0","effprop","repprop")
 
-# nimmod <- nimbleModel(code=nimcode,constants=nimcon, data=nimdata,
-#                       inits=niminits)
-# aa <- configureMCMC(nimmod,print=TRUE)
-# 
-# nimble is not picking up the conjugate beta priors for nimble
-
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
-mcmcs <- c("jags"
-            ,"nimble"
-            ,"nimble_slice"
-           ) 
+mcmcs <- c("jags","nimble","nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
-  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0)
+  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0,repShape=0.1)
+  if(observation == "nb"){
+    niminits <- lme4:::namedList(I=sim$I*repprop,obsMean=sim$I*repprop,effprop,R0,repprop,N0, repShape=0.1)
+  }
   mcmcs <- c("jags"
                ,"nimble"
                ,"nimble_slice"

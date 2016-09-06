@@ -67,7 +67,7 @@ stanmod = paste(process,observation,seed,iterations,"stan",sep=".")
 
 if(observation == "nb"){
   
-  cat("I = c(",sim$I[1],sub("",",",sim$I[-1]),")"
+  cat("I = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
       , "\n" , "obsMean = c(",sim$I[1],sub("",",",sim$I[-1]),")"
       , "\n" ,"effprop = ",effprop
       , "\n" , "R0 =", R0
@@ -84,7 +84,7 @@ if(observation == "nb"){
       , file = paste(process,observation,seed,iterations,"data.R",sep=".")
   )
   
-  #poisson process
+
   cat("data {
       int<lower=0> numobs; // number of data points
       int obs[numobs]; // response
@@ -114,7 +114,7 @@ N0 = N*effprop;
 BETA = R0/N0;
 I[1] ~ gamma(i0,1/repprop);
 obsMean[1] ~ gamma(repShape,(repShape/I[1]));
-S[1] = N0/repprop - I[1];
+S[1] = N0*repprop - I[1];
 pSI[1] = 1 - exp(-I[1]*BETA);
 obs[1] ~ poisson(obsMean[1]);
 SIGrate[1] = 0.1;
