@@ -23,7 +23,7 @@ if(observation == "bb"){
   niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0,repobsa,repobsb
                                , pSIa=rep(0.1,numobs)
                                , pSIb=rep(0.1,numobs))
-  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize,pSISize, eps)
+  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize,pSISize)
   }
 
 params <- c("R0","effprop","repprop")
@@ -34,9 +34,9 @@ mcmcs <- c(#"jags"
            ,"nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
-  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop, N0)
+  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop)
   if(observation == "nb"){
-    niminits <- lme4:::namedList(I=sim$I*repprop,obsMean=sim$I*repprop,effprop,R0,repprop,N0, repShape)
+    niminits <- lme4:::namedList(I=sim$I*repprop,obsMean=sim$I*repprop,effprop,R0,repprop,repShape)
   }
   mcmcs <- c("jags"
                ,"nimble"

@@ -146,7 +146,7 @@ if(process == "bb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
-        , "\n" , "eps = ", eps
+        # , "\n" , "eps = ", eps
         , "\n" , "pSISize = ", pSISize
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -157,7 +157,6 @@ if(process == "bb"){
         int obs[numobs]; // response
         int N;
         int i0;
-        real eps;
         real pSISize;
   }
         parameters {
@@ -182,7 +181,7 @@ if(process == "bb"){
         BETA = R0/N0;
         I[1] ~ gamma(i0,1/repprop);
         S[1] = N0*repprop - I[1];
-        pSI[1] = 1 - exp(-I[1]*BETA) + eps;
+        pSI[1] = 1 - exp(-I[1]*BETA);
         a[1] = pSISize/(1-pSI[1]);
         b[1] = pSISize/(pSI[1]);
         obs[1] ~ poisson(I[1]);
@@ -191,13 +190,13 @@ if(process == "bb"){
         
         
         for (t in 2:numobs) {
-        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+N));
-        SIGshape[t] = pSI[t-1]*S[t-1]*SIGrate[t]/repprop;
-        pSI[t] = 1 - exp(-I[t]*BETA) + eps;
+        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+S[t-1]/repprop));
+        SIGshape[t] = (a[t-1]/(a[t-1]+b[t-1]))*S[t-1]*SIGrate[t]/repprop;
+        pSI[t] = 1 - exp(-I[t]*BETA);
         a[t] = pSISize/(1-pSI[t]);
         b[t] = pSISize/(pSI[t]);
         I[t] ~ gamma(SIGshape[t],SIGrate[t]);
-        S[t] = S[t-1] - I[t];
+        S[t] = fmax(S[t-1] - I[t],0.000000000001);
         obs[t] ~ poisson(I[t]);
         }
         }"
@@ -222,7 +221,7 @@ if(process == "bb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
-        , "\n" , "eps = ", eps
+        # , "\n" , "eps = ", eps
         , "\n" , "pSISize = ", pSISize
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -261,23 +260,23 @@ if(process == "bb"){
         I[1] ~ gamma(i0,1/repprop);
         obsMean[1] ~ gamma(repShape,(repShape/I[1]));
         S[1] = N0*repprop - I[1];
-        pSI[1] = 1 - exp(-I[1]*BETA) + eps;
-	      a[1] = pSISize/(1-pSI[1]);
-	      b[1] = pSISize/(pSI[1]);
+        pSI[1] = 1 - exp(-I[1]*BETA);
+        a[1] = pSISize/(1-pSI[1]);
+        b[1] = pSISize/(pSI[1]);
         obs[1] ~ poisson(obsMean[1]);
         SIGrate[1] = 0.1;
         SIGshape[1] = 0.1;
         
         
         for (t in 2:numobs) {
-        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+N));
-        SIGshape[t] = pSI[t-1]*S[t-1]*SIGrate[t]/repprop;
-        pSI[t] = 1 - exp(-I[t]*BETA) + eps;
+        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+S[t-1]/repprop));
+        SIGshape[t] = (a[t-1]/(a[t-1]+b[t-1]))*S[t-1]*SIGrate[t]/repprop;
+        pSI[t] = 1 - exp(-I[t]*BETA);
         a[t] = pSISize/(1-pSI[t]);
-	      b[t] = pSISize/(pSI[t]);
+        b[t] = pSISize/(pSI[t]);
         I[t] ~ gamma(SIGshape[t],SIGrate[t]);
         obsMean[t] ~ gamma(repShape,(repShape/I[t]));
-        S[t] = S[t-1] - I[t];
+        S[t] = fmax(S[t-1] - I[t],0.00000001);
         obs[t] ~ poisson(obsMean[t]);
         }
         }"

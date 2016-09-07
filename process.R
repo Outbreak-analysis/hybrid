@@ -20,6 +20,8 @@ if(process == "b"){
       I[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-I[1]*beta)
+      SIGrate[1] <- 0.1
+      SIGshape[1] <- 0.1
       "
       ,"
       SIGrate[t] <- 1/(1-pSI[t-1])
@@ -53,15 +55,15 @@ if(process == "bb"){
     process_code <- c("
       I[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
-      pSI[1] <- 1 - exp(-I[1]*beta) + eps
+      pSI[1] <- 1 - exp(-I[1]*beta)
       a[1] <- pSISize/(1-pSI[1])
       b[1] <- pSISize/(pSI[1])
       "
       ,"
-      SIGrate[t] <- (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+N))
-      SIGshape[t] <- pSI[t-1]*S[t-1]*SIGrate[t]/repprop
+      SIGrate[t] <- (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+S[t-1]/repprop))
+      SIGshape[t] <- (a[t-1]/(a[t-1]+b[t-1]))*S[t-1]*SIGrate[t]/repprop
       I[t] ~ dgamma(SIGshape[t],SIGrate[t])
-      pSI[t] <- 1 - exp(-I[t]*beta) + eps
+      pSI[t] <- 1 - exp(-I[t]*beta)
       a[t] <- pSISize/(1-pSI[t])
       b[t] <- pSISize/(pSI[t])
       "
