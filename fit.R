@@ -46,8 +46,8 @@ if(type=="hyb"){
   stanmod <- paste(process,observation,seed,iterations,"stan",sep=".")
 }
 
-aa <- nimbleModel(code=nimcode,constants=nimcon,data=nimdata,inits=niminits)
-bb <- aa$getGraph()
+# aa <- nimbleModel(code=nimcode,constants=nimcon,data=nimdata,inits=niminits)
+# bb <- aa$getGraph()
 
 FitModel <- MCMCsuite(code=nimcode,
                       data=nimdata,
@@ -63,5 +63,5 @@ FitModel <- MCMCsuite(code=nimcode,
 
 print(FitModel$summary)
 
-saveRDS(FitModel,file=paste(type,process,observation,seed,iteration,".Rds"))
+saveRDS(FitModel,file=paste(type,process,observation,seed,iterations,".Rds"))
 
