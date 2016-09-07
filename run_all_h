@@ -1,0 +1,12 @@
+#!/bin/bash
+for modtype in hyb; do
+    for process in b; do
+    for observation in nb p; do
+        for ((seed=1;i<300;seed++)); do
+	    for iterations in 4000; do
+	    	    make fit.$modtype.$process.$observation.$seed.$iterations.Rout
+       		    	 done	
+			     done
+        done
+    done
+ done

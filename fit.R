@@ -63,4 +63,5 @@ FitModel <- MCMCsuite(code=nimcode,
 
 print(FitModel$summary)
 
+saveRDS(FitModel,file=paste(type,process,observation,seed,iteration,".Rds"))
 
