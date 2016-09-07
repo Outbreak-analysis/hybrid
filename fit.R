@@ -5,26 +5,25 @@ library(nimble)
 nimbleOptions(verifyConjugatePosteriors=TRUE)
 nimdata <- lme4:::namedList(obs=sim$Iobs)
 nimcon <- lme4:::namedList(numobs ,N ,i0)
-
-niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop, N0)
+niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0)
 
 if(process == "bb"){
-  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0
-                               , pSIa=rep(0.1,numobs)
-                               , pSIb=rep(0.1,numobs))
-  nimcon <- lme4:::namedList(numobs ,N ,i0, pSISize, eps)
+  niminits <- c(niminits,lme4:::namedList(pSIa=rep(0.1,numobs), pSIb=rep(0.1,numobs)))
+  nimcon <- c(nimcon,lme4:::namedList(pSISize))
 }
 
-if(observation == "nb"){
-  niminits <- lme4:::namedList(I=sim$I,obsMean=sim$I,effprop,R0,repprop,N0, repShape)
+if(process == "nb"){
+  niminits <- c(niminits,lme4:::namedList(Imean=sim$I,pSISize))
 }
 
 if(observation == "bb"){
-  niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0,repobsa,repobsb
-                               , pSIa=rep(0.1,numobs)
-                               , pSIb=rep(0.1,numobs))
-  nimcon <- lme4:::namedList(numobs ,N ,i0,repobsSize,pSISize)
-  }
+    niminits <- c(niminits,lme4:::namedList(repobsa,repobsb))
+    nimcon <- c(nimcon,lme4:::namedList(repobsSize))
+}
+
+if(observation == "nb"){
+  niminits <- c(niminits,lme4:::namedList(obsMean=sim$I, repShape))
+}
 
 params <- c("R0","effprop","repprop")
 
@@ -35,8 +34,12 @@ mcmcs <- c(#"jags"
 stanmod <- ""
 if(type=="hyb"){
   niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop)
+  nimcon <- lme4:::namedList(numobs ,N ,i0)
+  if(process == "nb"){
+    niminits <- c(niminits,lme4:::namedList(pSISize))
+  }
   if(observation == "nb"){
-    niminits <- lme4:::namedList(I=sim$I*repprop,obsMean=sim$I*repprop,effprop,R0,repprop,repShape)
+    niminits <- c(niminits,lme4:::namedList(obsMean=sim$I*repprop,repShape))
   }
   mcmcs <- c("jags"
                ,"nimble"
@@ -63,5 +66,5 @@ FitModel <- MCMCsuite(code=nimcode,
 
 print(FitModel$summary)
 
-saveRDS(FitModel,file=paste(type,process,observation,seed,iterations,".Rds"))
+saveRDS(FitModel,file=paste(type,process,observation,seed,iterations,"Rds",sep="."))
 

@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: all.dis
+target pngtarget pdftarget vtarget acrtarget: fit.hyb.nb.nb.1.4000.Rout
 ##################################################################
 
 Sources += Makefile stuff.mk
@@ -25,7 +25,7 @@ all.dis: fit.dis.bb.b.1.4000.Rout fit.dis.bb.p.1.4000.Rout fit.dis.bb.nb.1.4000.
 all.hyb: fit.hyb.bb.p.1.4000.Rout fit.hyb.bb.nb.1.4000.Rout fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
 
 clean:
-	rm -f *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout 
+	rm -f *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout *.Rds
 
 #############
 Sources += $(wildcard *.R *.bug)
