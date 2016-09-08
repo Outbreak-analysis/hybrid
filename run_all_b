@@ -1,7 +1,7 @@
 #!/bin/bash
 for modtype in dis; do
     for process in b p nb; do
-	for observation in bb nb p; do
+	for observation in b bb nb p; do
 	    for seed in {1..100}; do
 		for iterations in 4000; do
 		    make fit.$modtype.$process.$observation.$seed.$iterations.Rout
