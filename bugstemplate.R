@@ -25,10 +25,10 @@ if(type=="hyb"){
       "
   )
   S <- c("
-      S[1] <- N0*repprop - I[1]
+      Shat[1] <- N0*repprop - Ihat[1]
       "
          ,"
-      S[t] <- S[t-1] - I[t]
+      Shat[t] <- Shat[t-1] - Ihat[t]
       ")
 }
 

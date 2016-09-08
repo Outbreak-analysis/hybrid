@@ -17,18 +17,19 @@ if(observation == "p"){
 
 if(observation == "nb"){
   observation_code <- c("
-      repShape ~ dgamma(1,1)
-      obsMean[1] ~ dgamma(repShape,repShape/I[1])
+      repDis ~ dgamma(1,1)
+      obsMean[1] ~ dgamma(repDis,repDis/I[1])
       obs[1] ~ dpois(obsMean[1])"
                         , "
-      obsMean[t] ~ dgamma(repShape,repShape/I[t])
+      obsMean[t] ~ dgamma(repDis,repDis/I[t])
       obs[t] ~ dpois(obsMean[t])")
 }
 
 if(observation == "bb"){
   observation_code <- c("
-      repobsa ~ dgamma(repobsSize/(1-repprop), 1)
-	    repobsb ~ dgamma(repobsSize/repprop, 1)
+      repDis ~ dgamma(1,1)
+      repobsa ~ dgamma(repDis/(1-repprop), 1)
+      repobsb ~ dgamma(repDis/repprop, 1)
       reporting <- repobsa/(repobsa + repobsb)
       obs[1] ~ dbin(reporting,I[1])"
                         , "

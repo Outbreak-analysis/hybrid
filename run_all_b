@@ -1,8 +1,8 @@
 #!/bin/bash
 for modtype in dis; do
-    for process in b; do
+    for process in b p nb; do
 	for observation in b bb nb p; do
-	    for ((seed=1;i<151;seed++)); do
+	    for ((seed == 1;i<101;seed++)); do
 		for iterations in 4000; do
 		    make fit.$modtype.$process.$observation.$seed.$iterations.Rout
        		done	

@@ -19,7 +19,7 @@ rbbinom <- function(n, prob, k, size){
 }
 
 simm <- function(R0 = 2, N=10000, effprop=0.9, i0=1,
-                  t0=1, numobs=20, repMean=0.5, repSize=10, seed=NULL){
+                  t0=1, numobs=20, repprop=0.5, repDis=10, seed=NULL){
   
   ## *all* infecteds recover in the next time step
   
@@ -35,15 +35,15 @@ simm <- function(R0 = 2, N=10000, effprop=0.9, i0=1,
   R[1] <- N-N0
   beta <- exp(-R0/N0)
   pSI[1] <- 1 - (beta)^I[1]
-  Iobs[1] <- rbbinom(1, prob=repMean, k=repSize, size=I[1])
+  Iobs[1] <- rbbinom(1, prob=repprop, k=repDis, size=I[1])
   ## Generate the Unobserved process I, and observables:
   
   for (t in 2:n){
-    I[t] <- rbbinom(1,prob=pSI[t-1],k=repSize,size=S[t-1])
+    I[t] <- rbbinom(1,prob=pSI[t-1],k=repDis,size=S[t-1])
     S[t] <- S[t-1] - I[t]
     R[t] <- R[t-1] + I[t-1]
     pSI[t] <- 1 - (beta)^I[t]
-    Iobs[t] <- rbbinom(1, prob=repMean, k=repSize, size=I[t])
+    Iobs[t] <- rbbinom(1, prob=repprop, k=repDis, size=I[t])
   }
   
   data.frame(time=tvec, S, I, R, Iobs,pSI)
@@ -54,8 +54,8 @@ system.time(sim <- simm(R0=R0
                         , N=N
                         , effprop=effprop
                         , i0=i0
-                        , repMean=repprop
-                        , repSize=repSize
+                        , repprop=repprop
+                        , repDis=repDis
                         , numobs=numobs,
                         seed=seed
 )

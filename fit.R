@@ -8,21 +8,19 @@ nimcon <- lme4:::namedList(numobs ,N ,i0)
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0)
 
 if(process == "bb"){
-  niminits <- c(niminits,lme4:::namedList(pSIa=rep(0.1,numobs), pSIb=rep(0.1,numobs)))
-  nimcon <- c(nimcon,lme4:::namedList(pSISize))
+  niminits <- c(niminits,lme4:::namedList(pSIa=rep(0.1,numobs), pSIb=rep(0.1,numobs), pDis, eps))
 }
 
 if(process == "nb"){
-  niminits <- c(niminits,lme4:::namedList(Imean=sim$I,pSISize))
+  niminits <- c(niminits,lme4:::namedList(Imean=sim$I,pDis))
 }
 
 if(observation == "bb"){
-    niminits <- c(niminits,lme4:::namedList(repobsa,repobsb))
-    nimcon <- c(nimcon,lme4:::namedList(repobsSize))
+    niminits <- c(niminits,lme4:::namedList(repobsa,repobsb,repDis))
 }
 
 if(observation == "nb"){
-  niminits <- c(niminits,lme4:::namedList(obsMean=sim$I, repShape))
+  niminits <- c(niminits,lme4:::namedList(obsMean=sim$I, repDis))
 }
 
 params <- c("R0","effprop","repprop")
@@ -36,10 +34,10 @@ if(type=="hyb"){
   niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop)
   nimcon <- lme4:::namedList(numobs ,N ,i0)
   if(process == "nb"){
-    niminits <- c(niminits,lme4:::namedList(pSISize))
+    niminits <- c(niminits,lme4:::namedList(pDis))
   }
   if(observation == "nb"){
-    niminits <- c(niminits,lme4:::namedList(obsMean=sim$I*repprop,repShape))
+    niminits <- c(niminits,lme4:::namedList(obsMean=sim$I*repprop,repDis))
   }
   mcmcs <- c("jags"
                ,"nimble"
