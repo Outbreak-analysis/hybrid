@@ -12,20 +12,22 @@ if(tail(niminits$I,1)<1){
 }
 
 if(process == "bb"){
-  niminits <- c(niminits,lme4:::namedList(pSIa=rep(0.1,numobs), pSIb=rep(0.1,numobs), pDis, eps))
+  nimcon <- c(nimcon,lme4:::namedList(pDis))
 }
 
 if(process == "nb"){
-  niminits <- c(niminits,lme4:::namedList(Imean=sim$I,pDis))
+  niminits <- c(niminits,lme4:::namedList(Imean=sim$I))
+  nimcon <- c(nimcon,lme4:::namedList(pDis))
 }
 
 if(observation == "bb"){
-    niminits <- c(niminits,lme4:::namedList(repobsa,repobsb,repDis))
+    nimcon <- c(nimcon,lme4:::namedList(repDis))
 }
 
 if(observation == "nb"){
-  niminits <- c(niminits,lme4:::namedList(obsMean=sim$I, repDis))
-}
+  niminits <- c(niminits,lme4:::namedList(obsMean=sim$I))
+  nimcon <- c(nimcon,lme4:::namedList(repDis))
+  }
 
 params <- c("R0","effprop","repprop")
 

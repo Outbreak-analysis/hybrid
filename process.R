@@ -39,16 +39,15 @@ if(process == "bb"){
     process_code <- c("
       I[1] ~ dbin(1,i0)
       beta <- R0/N0
-      pDis ~ dgamma(1,1)
       pSI[1] <- 1 - exp(-I[1]*beta) + eps
-      pSIa[1] ~ dgamma(pDis/(1-pSI[1]),1)
-      pSIb[1] ~ dgamma(pDis/(pSI[1]),1)
+      pSIa[1] <- pDis/(1-pSI[1])
+      pSIb[1] <- pDis/(pSI[1])
                       "
       ,"
       I[t] ~ dbin(pSIa[t-1]/(pSIa[t-1]+pSIb[t-1]),S[t-1])
       pSI[t] <- 1 - exp(-I[t]*beta) + eps
-      pSIa[t] ~ dgamma(pDis/(1-pSI[t]),1)
-      pSIb[t] ~ dgamma(pDis/(pSI[t]),1)
+      pSIa[t] <- pDis/(1-pSI[t])
+      pSIb[t] <- pDis/(pSI[t])
       "
     )
   }
@@ -56,7 +55,6 @@ if(process == "bb"){
     process_code <- c("
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
-      pDis ~ dgamma(1,1)
       pSI[1] <- 1 - exp(-Ihat[1]*beta)
       a[1] <- pDis/(1-pSI[1])
       b[1] <- pDis/(pSI[1])
@@ -109,7 +107,6 @@ if(process == "p"){
 if(process == "nb"){
   if(type == "dis"){
     process_code <- c("
-      pDis ~ dgamma(1,1)
       Imean[1] ~ dgamma(pDis,pDis/i0)
       I[1] ~ dpois(Imean[1])
       beta <- R0/N0
@@ -124,7 +121,6 @@ if(process == "nb"){
   }
   if(type == "hyb"){
     process_code <- c("
-      pDis ~ dgamma(1,1)
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-Ihat[1]*beta)

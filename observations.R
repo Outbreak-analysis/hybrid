@@ -17,7 +17,6 @@ if(observation == "p"){
 
 if(observation == "nb"){
   observation_code <- c("
-      repDis ~ dgamma(1,1)
       obsMean[1] ~ dgamma(repDis,repDis/I[1])
       obs[1] ~ dpois(obsMean[1])"
                         , "
@@ -27,9 +26,8 @@ if(observation == "nb"){
 
 if(observation == "bb"){
   observation_code <- c("
-      repDis ~ dgamma(1,1)
-      repobsa ~ dgamma(repDis/(1-repprop), 1)
-      repobsb ~ dgamma(repDis/repprop, 1)
+      repobsa <- repDis/(1-repprop)
+      repobsb <- repDis/repprop
       reporting <- repobsa/(repobsa + repobsb)
       obs[1] ~ dbin(reporting,I[1])"
                         , "
@@ -46,7 +44,6 @@ if(type=="hyb"){
   
   if(observation == "nb"){
     observation_code <- c("
-                          repDis ~ dgamma(1,1)
                           obsMean[1] ~ dgamma(repDis,repDis/Ihat[1])
                           obs[1] ~ dpois(obsMean[1])"
                           , "
