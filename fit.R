@@ -7,6 +7,10 @@ nimdata <- lme4:::namedList(obs=sim$Iobs)
 nimcon <- lme4:::namedList(numobs ,N ,i0)
 niminits <- lme4:::namedList(I=sim$I,effprop,R0,repprop,N0)
 
+if(tail(niminits$I,1)<1){
+  quit()
+}
+
 if(process == "bb"){
   niminits <- c(niminits,lme4:::namedList(pSIa=rep(0.1,numobs), pSIb=rep(0.1,numobs), pDis, eps))
 }
