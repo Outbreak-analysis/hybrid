@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: fit.hyb.nb.nb.1.4000.Rout
+target pngtarget pdftarget vtarget acrtarget: run_dis
 ##################################################################
 
 Sources += Makefile stuff.mk
@@ -26,6 +26,9 @@ all.hyb: fit.hyb.bb.p.1.4000.Rout fit.hyb.bb.nb.1.4000.Rout fit.hyb.b.p.1.4000.R
 
 clean:
 	rm -f *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout .sim* .template* .fit*
+
+run_dis:
+	bash run_all_b
 
 #############
 Sources += $(wildcard *.R *.bug)
