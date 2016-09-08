@@ -31,16 +31,19 @@ mcmcs <- c(#"jags"
            ,"nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
-  niminits <- lme4:::namedList(I=sim$I*repprop,effprop,R0,repprop)
+  niminits <- lme4:::namedList(Ihat=sim$I*repprop,effprop,R0,repprop)
   nimcon <- lme4:::namedList(numobs ,N ,i0)
+  if(process == "bb"){
+    niminits <- c(niminits,lme4:::namedList(pDis))
+  }
   if(process == "nb"){
     niminits <- c(niminits,lme4:::namedList(pDis))
   }
   if(observation == "nb"){
     niminits <- c(niminits,lme4:::namedList(obsMean=sim$I*repprop,repDis))
   }
-  mcmcs <- c("jags"
-               ,"nimble"
+  mcmcs <- c(#"jags"
+               "nimble"
                ,"nimble_slice"
                ,"stan"
              )

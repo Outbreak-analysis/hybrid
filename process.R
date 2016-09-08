@@ -57,7 +57,7 @@ if(process == "bb"){
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pDis ~ dgamma(1,1)
-      pSI[1] <- 1 - exp(-I[1]*beta)
+      pSI[1] <- 1 - exp(-Ihat[1]*beta)
       a[1] <- pDis/(1-pSI[1])
       b[1] <- pDis/(pSI[1])
       "

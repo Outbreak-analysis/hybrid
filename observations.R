@@ -35,3 +35,22 @@ if(observation == "bb"){
                         , "
       obs[t] ~ dbin(reporting,I[t])")
 }
+
+if(type=="hyb"){
+  if(observation == "p"){
+    observation_code <- c("
+                          obs[1] ~ dpois(Ihat[1])"
+                          , "
+                          obs[t] ~ dpois(Ihat[t])")
+  }
+  
+  if(observation == "nb"){
+    observation_code <- c("
+                          repDis ~ dgamma(1,1)
+                          obsMean[1] ~ dgamma(repDis,repDis/Ihat[1])
+                          obs[1] ~ dpois(obsMean[1])"
+                          , "
+                          obsMean[t] ~ dgamma(repDis,repDis/Ihat[t])
+                          obs[t] ~ dpois(obsMean[t])")
+  }
+}
