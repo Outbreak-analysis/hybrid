@@ -1,9 +1,9 @@
 priors <- c("
       #prior
-      effprop ~ dbeta(9,2)
-      repprop ~ dbeta(9,9)
+      effprop ~ dbeta(effa,effb)
+      repprop ~ dbeta(repa,repb)
             
-      R0 ~ dgamma(2,1)
+      R0 ~ dgamma(Rshape,Rrate)
       N0 ~ dbin(effprop,N)
       "
 )
@@ -17,10 +17,10 @@ S <- c("
 if(type=="hyb"){
   priors <- c("
       #prior
-      effprop ~ dbeta(9,2)
-      repprop ~ dbeta(9,9)
+      effprop ~ dbeta(effa,effb)
+      repprop ~ dbeta(repa,repb)
             
-      R0 ~ dgamma(2,1)
+      R0 ~ dgamma(Rshape,Rrate)
       N0 <- effprop*N
       "
   )

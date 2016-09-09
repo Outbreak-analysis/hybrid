@@ -17,6 +17,7 @@ if(observation == "p"){
 
 if(observation == "nb"){
   observation_code <- c("
+      repDis ~ dgamma(repDshape,repDrate)
       obsMean[1] ~ dgamma(repDis,repDis/I[1])
       obs[1] ~ dpois(obsMean[1])"
                         , "
@@ -26,9 +27,8 @@ if(observation == "nb"){
 
 if(observation == "bb"){
   observation_code <- c("
-      repobsa <- repDis/(1-repprop)
-      repobsb <- repDis/repprop
-      reporting <- repobsa/(repobsa + repobsb)
+      repDis ~ dgamma(repDshape,repDrate)
+      reporting ~ dbeta(repDis/(1-repprop),repDis/repprop)
       obs[1] ~ dbin(reporting,I[1])"
                         , "
       obs[t] ~ dbin(reporting,I[t])")
@@ -37,17 +37,18 @@ if(observation == "bb"){
 if(type=="hyb"){
   if(observation == "p"){
     observation_code <- c("
-                          obs[1] ~ dpois(Ihat[1])"
-                          , "
-                          obs[t] ~ dpois(Ihat[t])")
+      obs[1] ~ dpois(Ihat[1])"
+      , "
+      obs[t] ~ dpois(Ihat[t])")
   }
   
   if(observation == "nb"){
     observation_code <- c("
-                          obsMean[1] ~ dgamma(repDis,repDis/Ihat[1])
-                          obs[1] ~ dpois(obsMean[1])"
-                          , "
-                          obsMean[t] ~ dgamma(repDis,repDis/Ihat[t])
-                          obs[t] ~ dpois(obsMean[t])")
+      repDis ~ dgamma(repDshape, repDrate)
+      obsMean[1] ~ dgamma(repDis,repDis/Ihat[1])
+      obs[1] ~ dpois(obsMean[1])"
+      , "
+      obsMean[t] ~ dgamma(repDis,repDis/Ihat[t])
+      obs[t] ~ dpois(obsMean[t])")
   }
 }

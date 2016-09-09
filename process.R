@@ -20,8 +20,7 @@ if(process == "b"){
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-Ihat[1]*beta)
-      SIGrate[1] <- 0.1
-      SIGshape[1] <- 0.1
+
       "
       ,"
       SIGrate[t] <- 1/(1-pSI[t-1])
@@ -39,15 +38,14 @@ if(process == "bb"){
     process_code <- c("
       I[1] ~ dbin(1,i0)
       beta <- R0/N0
-      pSI[1] <- 1 - exp(-I[1]*beta) + eps
-      pSIa[1] <- pDis/(1-pSI[1])
-      pSIb[1] <- pDis/(pSI[1])
-                      "
+      pSI[1] <- 1 - exp(-I[1]*beta)
+      pDis ~ dgamma(pDshape,pDrate)
+      phat[1] ~ dbeta(pDis/(1-pSI[1]),pDis/pSI[1])
+      "
       ,"
-      I[t] ~ dbin(pSIa[t-1]/(pSIa[t-1]+pSIb[t-1]),S[t-1])
-      pSI[t] <- 1 - exp(-I[t]*beta) + eps
-      pSIa[t] <- pDis/(1-pSI[t])
-      pSIb[t] <- pDis/(pSI[t])
+      I[t] ~ dbin(phat[t-1],S[t-1])
+      pSI[t] <- 1 - exp(-I[t]*beta)
+      phat[t] ~ dbeta(pDis/(1-pSI[t]),pDis/pSI[t])
       "
     )
   }
@@ -56,16 +54,13 @@ if(process == "bb"){
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-Ihat[1]*beta)
-      a[1] <- pDis/(1-pSI[1])
-      b[1] <- pDis/(pSI[1])
+      pDis ~ dgamma(pDshape,pDrate)
       "
       ,"
-      SIGrate[t] <- (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+Shat[t-1]/repprop))
-      SIGshape[t] <- (a[t-1]/(a[t-1]+b[t-1]))*Shat[t-1]*SIGrate[t]/repprop
+      SIGrate[t] <- (pDis+1)/((1-pSI[t-1])*(pDis+Shat[t-1]/repprop))
+      SIGshape[t] <- pSI[t-1]*Shat[t-1]*SIGrate[t]/repprop
       Ihat[t] ~ dgamma(SIGshape[t],SIGrate[t])
       pSI[t] <- 1 - exp(-Ihat[t]*beta)
-      a[t] <- pDis/(1-pSI[t])
-      b[t] <- pDis/(pSI[t])
       "
     )
   }
@@ -90,9 +85,7 @@ if(process == "p"){
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-Ihat[1]*beta)
-      SIGrate[1] <- 1
-      SIGshape[1] <- 1
-                      "
+      "
       ,"
       SIGrate[t] <- 1
       SIGshape[t] <- pSI[t-1]*SIGrate[t]*(Shat[t-1]/repprop)
@@ -103,10 +96,11 @@ if(process == "p"){
   }
 }
 
-## Poisson Process ----
+## Negative-Binomial Process ----
 if(process == "nb"){
   if(type == "dis"){
     process_code <- c("
+      pDis ~ dgamma(pDshape,pDrate)
       Imean[1] ~ dgamma(pDis,pDis/i0)
       I[1] ~ dpois(Imean[1])
       beta <- R0/N0
@@ -121,12 +115,11 @@ if(process == "nb"){
   }
   if(type == "hyb"){
     process_code <- c("
+      pDis ~ dgamma(pDshape,pDrate)
       Ihat[1] ~ dgamma(i0,1/repprop)
       beta <- R0/N0
       pSI[1] <- 1 - exp(-Ihat[1]*beta)
-      SIGrate[1] <- 0.1
-      SIGshape[1] <- 0.1
-                      "
+      "
       ,"
       SIGrate[t] <- pDis/(Shat[t-1]*pSI[t-1]/repprop)
       SIGshape[t] <- pDis
