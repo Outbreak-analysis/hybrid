@@ -17,7 +17,7 @@ $\theta = \frac{1}{(1-p)}$
 
 $\kappa = \theta np$
 
-### Beta-binomial($n,\alpha,\beta$) where  $\alpha, \beta$ are shape parameters and _n_ is the size.
+### Beta-binomial($n,\alpha,\beta$) where  $\alpha, \beta$ are shape parameters and _n_ is the size. Alternatively, the Beta-binomial can be reparameterized $BB(n, p, \delta)$ where _p_ is the sum of $\alpha, \beta$ and $\delta$ is a dispersion parameter.
 
 $\frac{\kappa}{\theta} = \frac{n\alpha}{\alpha + \beta}$
 
@@ -25,7 +25,9 @@ $\frac{\kappa}{\theta^{2}} = \frac{n\alpha \beta (\alpha + \beta + n)}{(\alpha +
 
 $\theta = \frac{(\alpha + \beta)(\alpha + \beta + 1)}{\beta (\alpha + \beta + n)}$
 
-$\kappa = \frac{n \alpha \theta}{\alpha + \beta}$
+$\theta = \frac{\delta (\delta + 1)}{(1-p)\delta (\delta + n)}$
+
+$\kappa = np\theta$
 
 ### Poisson($\lambda$)
 
