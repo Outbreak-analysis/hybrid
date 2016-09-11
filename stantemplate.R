@@ -177,6 +177,14 @@ if(process == "bb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+	, "\n" , "effa = ", effa
+	, "\n" , "effb = ", effb
+	, "\n" , "repa = ", repa
+	, "\n" , "repb = ", repb
+	, "\n" , "Rshape = ", Rshape
+	, "\n" , "Rrate = ", Rrate
+	, "\n" , "pDshape = ", pDshape
+	, "\n" , "pDrate = " , pDrate
         , "\n" , "eps = ", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -187,6 +195,14 @@ if(process == "bb"){
         int obs[numobs]; // response
         int N;
         int i0;
+	real effa;
+	real effb;
+	real repa;
+	real repb;
+	real Rshape;
+	real Rrate;
+	real pDshape;
+	real pDrate;
         real eps;
   }
         parameters {
@@ -205,28 +221,21 @@ if(process == "bb"){
         vector[numobs] SIGshape;
         real BETA;
         real N0;
-        R0 ~ gamma(2,1);
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
-        pDis ~ gamma(1,1);
+        R0 ~ gamma(Rshape,Rrate);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
+        pDis ~ gamma(pDshape,pDrate);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
-        a[1] = pDis/(1-pSI[1]);
-        b[1] = pDis/(pSI[1]);
         obs[1] ~ poisson(Ihat[1]);
-        SIGrate[1] = 0.1;
-        SIGshape[1] = 0.1;
-        
         
         for (t in 2:numobs) {
-        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+Shat[t-1]/repprop));
-        SIGshape[t] = (a[t-1]/(a[t-1]+b[t-1]))*Shat[t-1]*SIGrate[t]/repprop;
+        SIGrate[t] = (pDis + 1)/((1-pSI[t-1])*(pDis+Shat[t-1]/repprop));
+        SIGshape[t] = pSI[t-1]*Shat[t-1]*SIGrate[t]/repprop;
         pSI[t] = 1 - exp(-Ihat[t]*BETA);
-        a[t] = pDis/(1-pSI[t]);
-        b[t] = pDis/(pSI[t]);
         Ihat[t] ~ gamma(SIGshape[t],SIGrate[t]);
         Shat[t] = fmax(Shat[t-1] - Ihat[t],eps);
         obs[t] ~ poisson(Ihat[t]);
