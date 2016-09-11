@@ -8,9 +8,17 @@ cat("Ihat = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
 )
 
 cat("obs = c(",sim$Iobs[1],sub("",",",sim$Iobs[-1]),")"
-    , "\n" ,"N = ",N
+    , "\n" ,"N = ", N
     , "\n" , "numobs =", numobs
     , "\n" , "i0 = ", i0
+    , "\n" , "effa = ", effa
+    , "\n" , "effb = ", effb
+    , "\n" , "repa = ", repa
+    , "\n" , "repb = ", repb
+    , "\n" , "Rshape = ", Rshape
+    , "\n" , "Rrate = ", Rrate
+    , "\n" , "SIGshape = ", SIGshape
+    , "\n" , "SIGrate = ", SIGrate   
     , "\n" , "eps = ", eps
     , file = paste(process,observation,seed,iterations,"data.R",sep=".")
 )
@@ -21,6 +29,12 @@ int<lower=0> numobs; // number of data points
     int obs[numobs]; // response
     int N;
     int i0;
+    real effa;
+    real effb;
+    real repa;
+    real repb;
+    real Rshape;
+    real Rrate;
     real eps;
     }
     parameters {
@@ -45,8 +59,6 @@ int<lower=0> numobs; // number of data points
     Shat[1] = N0*repprop - Ihat[1];
     pSI[1] = 1 - exp(-Ihat[1]*BETA);
     obs[1] ~ poisson(Ihat[1]);
-    SIGrate[1] = 0.1;
-    SIGshape[1] = 0.1;
     
     
     for (t in 2:numobs) {
