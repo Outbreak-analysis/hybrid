@@ -17,8 +17,6 @@ cat("obs = c(",sim$Iobs[1],sub("",",",sim$Iobs[-1]),")"
     , "\n" , "repb = ", repb
     , "\n" , "Rshape = ", Rshape
     , "\n" , "Rrate = ", Rrate
-    , "\n" , "SIGshape = ", SIGshape
-    , "\n" , "SIGrate = ", SIGrate   
     , "\n" , "eps = ", eps
     , file = paste(process,observation,seed,iterations,"data.R",sep=".")
 )
@@ -263,6 +261,16 @@ if(process == "bb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+        , "\n" , "effa = ", effa
+        , "\n" , "effb = ", effb
+        , "\n" , "repa = ", repa
+        , "\n" , "repb = ", repb
+        , "\n" , "Rshape = ", Rshape
+        , "\n" , "Rrate = ", Rrate
+        , "\n" , "repDshape = ", repDshape
+        , "\n" , "repDrate = ", repDrate 
+        , "\n" , "pDshape = ", pDshape
+        , "\n" , "pDrate = ", pDrate
         , "\n" , "eps = ", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -273,6 +281,16 @@ if(process == "bb"){
         int obs[numobs]; // response
         int N;
         int i0;
+        real effa;
+        real effb;
+        real repa;
+        real repb;
+        real Rshape;
+        real Rrate;
+        real repDshape;
+        real repDrate;
+        real pDshape;
+        real pDrate;
 	      real eps;
   }
         parameters {
@@ -287,36 +305,28 @@ if(process == "bb"){
         model {
         vector[numobs] Shat;
         vector[numobs] pSI;
-	      vector[numobs] a;
-	      vector[numobs] b;
-        vector[numobs] SIGrate;
+	      vector[numobs] SIGrate;
         vector[numobs] SIGshape;
         real N0;
         real BETA;
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
-        R0 ~ gamma(2,1);
-        repDis ~ gamma(1,1);
-        pDis ~ gamma(1,1);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
+        R0 ~ gamma(Rshape,Rrate);
+        repDis ~ gamma(repDshape,repDrate);
+        pDis ~ gamma(pDshape,pDrate);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
         obsMean[1] ~ gamma(repDis,(repDis/Ihat[1]));
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
-        a[1] = pDis/(1-pSI[1]);
-        b[1] = pDis/(pSI[1]);
         obs[1] ~ poisson(obsMean[1]);
-        SIGrate[1] = 0.1;
-        SIGshape[1] = 0.1;
         
         
         for (t in 2:numobs) {
-        SIGrate[t] = (a[t-1]+b[t-1])*(a[t-1]+b[t-1]+1)/(b[t-1]*(a[t-1]+b[t-1]+Shat[t-1]/repprop));
-        SIGshape[t] = (a[t-1]/(a[t-1]+b[t-1]))*Shat[t-1]*SIGrate[t]/repprop;
+        SIGrate[t] = (pDis+1)/((1-pSI[t-1])*(pDis+Shat[t-1]/repprop));
+        SIGshape[t] = pSI[t-1]*Shat[t-1]*SIGrate[t]/repprop;
         pSI[t] = 1 - exp(-Ihat[t]*BETA);
-        a[t] = pDis/(1-pSI[t]);
-        b[t] = pDis/(pSI[t]);
         Ihat[t] ~ gamma(SIGshape[t],SIGrate[t]);
         obsMean[t] ~ gamma(repDis,(repDis/Ihat[t]));
         Shat[t] = fmax(Shat[t-1] - Ihat[t],eps);
@@ -343,6 +353,12 @@ if(process == "p"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+        , "\n" , "effa = ", effa
+        , "\n" , "effb = ", effb
+        , "\n" , "repa = ", repa
+        , "\n" , "repb = ", repb
+        , "\n" , "Rshape = ", Rshape
+        , "\n" , "Rrate = ", Rrate
         , "\n" , "eps =", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -353,6 +369,12 @@ if(process == "p"){
         int obs[numobs]; // response
         int N;
         int i0;
+        real effa;
+        real effb;
+        real repa;
+        real repb;
+        real Rshape;
+        real Rrate;
         real eps;
   }
         parameters {
@@ -368,18 +390,15 @@ if(process == "p"){
         vector[numobs] SIGshape;
         real BETA;
         real N0;
-        R0 ~ gamma(2,1);
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
+        R0 ~ gamma(Rshape,Rrate);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
         obs[1] ~ poisson(Ihat[1]);
-        SIGrate[1] = 1;
-        SIGshape[1] = 1;
-        
         
         for (t in 2:numobs) {
         SIGrate[t] = 1;
@@ -411,6 +430,14 @@ if(process == "p"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+        , "\n" , "effa = ", effa
+        , "\n" , "effb = ", effb
+        , "\n" , "repa = ", repa
+        , "\n" , "repb = ", repb
+        , "\n" , "Rshape = ", Rshape
+        , "\n" , "Rrate = ", Rrate
+        , "\n" , "repDshape = ", repDshape
+        , "\n" , "repDrate = ", repDrate
         , "\n" , "eps = ", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -421,7 +448,14 @@ if(process == "p"){
         int obs[numobs]; // response
         int N;
         int i0;
-        real repDis;
+        real effa;
+        real effb;
+        real repa;
+        real repb;
+        real Rshape;
+        real Rrate;
+        real repDshape;
+        real repDrate;
         real eps;
   }
         parameters {
@@ -429,6 +463,7 @@ if(process == "p"){
         real <lower=0,upper=1> repprop;
         real <lower=0,upper=1> effprop;
         real <lower=0> Ihat[numobs];
+        real <lower=0> repDis;
         real <lower=0> obsMean[numobs];
         }
         model {
@@ -438,10 +473,10 @@ if(process == "p"){
         vector[numobs] SIGshape;
         real N0;
         real BETA;
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
-        R0 ~ gamma(2,1);
-        repDis ~ gamma(1,1);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
+        R0 ~ gamma(Rshape,Rrate);
+        repDis ~ gamma(repDshape,repDrate);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
@@ -449,8 +484,6 @@ if(process == "p"){
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
         obs[1] ~ poisson(obsMean[1]);
-        SIGrate[1] = 1;
-        SIGshape[1] = 1;
         
         
         for (t in 2:numobs) {
@@ -470,7 +503,6 @@ stanmod = paste(process,observation,seed,iterations,"stan",sep=".")
 }
 }
 
-
 if(process == "nb"){
   if(observation == "p"){
     cat("I = c(",sim$I[1]*repprop,sub("",",",sim$I[-1]*repprop),")"
@@ -485,6 +517,14 @@ if(process == "nb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+        , "\n" , "effa = ", effa
+        , "\n" , "effb = ", effb
+        , "\n" , "repa = ", repa
+        , "\n" , "repb = ", repb
+        , "\n" , "Rshape = ", Rshape
+        , "\n" , "Rrate = ", Rrate
+        , "\n" , "pDshape = ", pDshape
+        , "\n" , "pDrate = ", pDrate   
         , "\n" , "eps = ", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -495,6 +535,14 @@ if(process == "nb"){
         int obs[numobs]; // response
         int N;
         int i0;
+        real effa;
+        real effb;
+        real repa;
+        real repb;
+        real Rshape;
+        real Rrate;
+        real pDshape;
+        real pDrate;
         real eps;
   }
         parameters {
@@ -511,18 +559,16 @@ if(process == "nb"){
         vector[numobs] SIGshape;
         real BETA;
         real N0;
-        R0 ~ gamma(2,1);
-        pDis ~ gamma(1,1);
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
+        R0 ~ gamma(Rshape,Rrate);
+        pDis ~ gamma(pDshape,pDrate);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
         obs[1] ~ poisson(Ihat[1]);
-        SIGrate[1] = 1;
-        SIGshape[1] = pDis;
         
         
         for (t in 2:numobs) {
@@ -556,6 +602,16 @@ if(process == "nb"){
         , "\n" ,"N = ",N
         , "\n" , "numobs =", numobs
         , "\n" , "i0 = ", i0
+        , "\n" , "effa = ", effa
+        , "\n" , "effb = ", effb
+        , "\n" , "repa = ", repa
+        , "\n" , "repb = ", repb
+        , "\n" , "Rshape = ", Rshape
+        , "\n" , "Rrate = ", Rrate
+        , "\n" , "pDshape = ", pDshape
+        , "\n" , "pDrate = ", pDrate
+        , "\n" , "repDshape = ", repDshape
+        , "\n" , "repDrate = ", repDrate
         , "\n" , "eps = ", eps
         , file = paste(process,observation,seed,iterations,"data.R",sep=".")
     )
@@ -566,6 +622,16 @@ if(process == "nb"){
         int obs[numobs]; // response
         int N;
         int i0;
+        real effa;
+        real effb;
+        real repa;
+        real repb;
+        real Rshape;
+        real Rrate;
+        real pDshape;
+        real pDrate;
+        real repDshape;
+        real repDrate;
         real eps;
   }
         parameters {
@@ -584,11 +650,11 @@ if(process == "nb"){
         vector[numobs] SIGshape;
         real N0;
         real BETA;
-        pDis ~ gamma(1,1);
-        repDis ~ gamma(1,1);
-        effprop ~ beta(9,2);
-        repprop ~ beta(9,9);
-        R0 ~ gamma(2,1);
+        pDis ~ gamma(pDshape,pDrate);
+        repDis ~ gamma(repDshape,repDrate);
+        effprop ~ beta(effa,effb);
+        repprop ~ beta(repa,repb);
+        R0 ~ gamma(Rshape,Rrate);
         N0 = N*effprop;
         BETA = R0/N0;
         Ihat[1] ~ gamma(i0,1/repprop);
@@ -596,8 +662,6 @@ if(process == "nb"){
         Shat[1] = N0*repprop - Ihat[1];
         pSI[1] = 1 - exp(-Ihat[1]*BETA);
         obs[1] ~ poisson(obsMean[1]);
-        SIGrate[1] = 1;
-        SIGshape[1] = pDis;
         
         
         for (t in 2:numobs) {
