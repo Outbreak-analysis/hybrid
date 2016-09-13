@@ -2,7 +2,7 @@
 
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: fit.dis.bb.b.1.4000.Rout
+target pngtarget pdftarget vtarget acrtarget: run_bash
 ##################################################################
 
 Sources += Makefile stuff.mk
@@ -18,11 +18,8 @@ templates.%.Rout: sim.%.Rout name.R parameters.CBB.R process.R observations.R bu
 fit.%.Rout: name.R sim.%.Rout templates.%.Rout fit.R
 	$(run-R)
 
-all: fit.dis.b.p.1.4000.Rout fit.dis.b.b.1.4000.Rout fit.dis.b.nb.1.4000.Rout fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
-
-all.dis: fit.dis.bb.b.1.4000.Rout fit.dis.bb.p.1.4000.Rout fit.dis.bb.nb.1.4000.Rout fit.dis.bb.bb.1.4000.Rout
-
-all.hyb: fit.hyb.bb.p.1.4000.Rout fit.hyb.bb.nb.1.4000.Rout fit.hyb.b.p.1.4000.Rout fit.hyb.b.nb.1.4000.Rout
+run_bash: run_all
+	bash run_all
 
 clean:
 	rm -f *.nimble.R *.buggen *.wrapR.r *.Rout *.nimcode *.stan *.init.R *.data.R *.Rlog *.wrapR.rout .sim* .template* .fit*
