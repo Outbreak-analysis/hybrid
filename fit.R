@@ -34,8 +34,8 @@ if(observation == "nb"){
 params <- c("R0","effprop","repprop")
 
 source(paste("templates",type,process,observation,seed,iterations,"nimcode",sep="."))
-mcmcs <- c(#"jags"
-           "nimble"
+mcmcs <- c("jags"
+           ,"nimble"
            ,"nimble_slice") 
 stanmod <- ""
 if(type=="hyb"){
@@ -53,8 +53,8 @@ if(type=="hyb"){
     niminits <- c(niminits,lme4:::namedList(obsMean=sim$I*repprop,repDis))
     nimcon <- c(nimcon, lme4:::namedList(repDshape,repDrate))
   }
-  mcmcs <- c(#"jags"
-               "nimble"
+  mcmcs <- c("jags"
+               ,"nimble"
                ,"nimble_slice"
                ,"stan"
              )
