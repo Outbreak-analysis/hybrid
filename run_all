@@ -2,8 +2,8 @@
 for modtype in dis hyb; do
     for process in b bb nb p; do
 	for observation in b bb nb p; do
-	    for seed in {1}; do
-		for iterations in 4000 10000 20000; do
+	    for seed in 1; do
+		for iterations in 4000; do
 		    make fit.$modtype.$process.$observation.$seed.$iterations.Rout
        		done	
 	    done
