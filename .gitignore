@@ -12,4 +12,4 @@ makestuff/
 *.data.R
 *.init.R
 *.stan
-*.Rds
+*.RdssimRDS/*.Rds
