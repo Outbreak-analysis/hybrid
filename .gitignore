@@ -12,4 +12,5 @@ makestuff/
 *.data.R
 *.init.R
 *.stan
-*.RdssimRDS/*.Rds
+*.Rds
+simRDS/*.Rds
