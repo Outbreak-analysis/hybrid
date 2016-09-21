@@ -18,7 +18,7 @@ if(process == "bb"){
 
 if(process == "nb"){
   niminits <- c(niminits,lme4:::namedList(Imean=sim$I,pDis))
-  nimcon <- c(nimcon,lme4:::namedList(pDshape,pDrate))
+  nimcon <- c(nimcon,lme4:::namedList(pDshape,pDrate,epsp))
 }
 
 if(observation == "bb"){
@@ -28,7 +28,7 @@ if(observation == "bb"){
 
 if(observation == "nb"){
   niminits <- c(niminits,lme4:::namedList(obsMean=sim$I,repDis))
-  nimcon <- c(nimcon,lme4:::namedList(repDshape,repDrate))
+  nimcon <- c(nimcon,lme4:::namedList(repDshape,repDrate,epso))
   }
 
 params <- c("R0","effprop","repprop")

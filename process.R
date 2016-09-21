@@ -107,7 +107,7 @@ if(process == "nb"){
       pSI[1] <- 1 - exp(-I[1]*beta)
       "
       ,"
-      Imean[t] ~ dgamma(pDis,pDis/(S[t-1]*pSI[t-1]))
+      Imean[t] ~ dgamma(pDis,pDis/(S[t-1]*pSI[t-1]+epsp))
       I[t] ~ dpois(Imean[t])
       pSI[t] <- 1 - exp(-I[t]*beta)
                       "

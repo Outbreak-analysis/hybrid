@@ -9,6 +9,8 @@ i0 <- 1
 N0 <- round(N*effprop)
 numobs <- 15
 eps <- 0.000000001
+epsp <- 0.000000001
+epso <- 0.000000001
 
 # epi gamma/beta prior parameters
 Rshape <- 2

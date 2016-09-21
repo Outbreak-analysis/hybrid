@@ -18,10 +18,10 @@ if(observation == "p"){
 if(observation == "nb"){
   observation_code <- c("
       repDis ~ dgamma(repDshape,repDrate)
-      obsMean[1] ~ dgamma(repDis,repDis/I[1])
+      obsMean[1] ~ dgamma(repDis,repDis/(I[1]+epso))
       obs[1] ~ dpois(obsMean[1])"
                         , "
-      obsMean[t] ~ dgamma(repDis,repDis/I[t])
+      obsMean[t] ~ dgamma(repDis,repDis/(I[t]+epso))
       obs[t] ~ dpois(obsMean[t])")
 }
 
