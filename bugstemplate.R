@@ -52,3 +52,15 @@ cat(nimstart
      , observation_code[2]
      , iterloop[2]
      , "})",file=paste(rtargetname,".nimcode",sep=""))
+
+cat("model{"
+    , priors
+    , process_code[1]
+    , S[1]
+    , observation_code[1]
+    , iterloop[1]
+    , process_code[2]
+    , S[2]
+    , observation_code[2]
+    , iterloop[2]
+    , "}",file=paste(rtargetname,".bug",sep=""))

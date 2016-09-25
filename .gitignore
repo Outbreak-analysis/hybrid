@@ -13,4 +13,5 @@ makestuff/
 *.init.R
 *.stan
 *.Rds
+*.bug
 simRDS/*.Rds
