@@ -35,3 +35,7 @@ pDis <- 1
 #hybrid parameters 
 SIGshape <- 0.1
 SIGrate <- 0.1
+
+#MCMC stuff
+#iterations?
+mchains <- 4
