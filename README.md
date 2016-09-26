@@ -58,7 +58,7 @@ $$ Obs_{t} \sim Binomial(repprop, I_{t}) $$
 - multiple chains and diagnostics (just finish)
 - Check idenifiability (data cloning)
 - remove recovery one time step after infection assumption
-- forcast
+- forecast
 
 ### Long term
 - continuous binomial and beta-binomial observational process (take continuous parameters)
