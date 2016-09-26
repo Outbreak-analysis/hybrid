@@ -1,0 +1,18 @@
+---
+title: "simplots"
+author: "Michael Li"
+date: "September 26, 2016"
+output: html_document
+---
+
+
+```{r,warning=FALSE,message=FALSE,echo=FALSE}
+source("plots.R")
+```
+
+```{r, echo=FALSE}
+g1 + geom_hline(aes(yintercept = z), hline.data)
+
+g3
+g4
+```

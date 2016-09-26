@@ -94,12 +94,12 @@ msumdat2 <- melt(sumdat,id=c("t_p_o_par_plat"
                             , "lowerCI"
                             , "upperCI"))
 
-g2 <- (ggplot(msumdat2,aes(x=platform,y=value,color=parameter,group=platform))
-  + geom_point(size=2)
-  + facet_grid(variable+observation~type+process,scale="free")
-  + theme_bw()
-  + ggtitle("Performance")
-  )
+# g2 <- (ggplot(msumdat2,aes(x=platform,y=value,color=parameter,group=platform))
+#   + geom_point(size=2)
+#   + facet_grid(variable+observation~type+process,scale="free")
+#   + theme_bw()
+#   + ggtitle("Performance")
+#   )
 
 
 g3 <- (ggplot(msumdat,aes(x=observation,y=efficiency,color=platform,group=platform,shape=parameter,alpha=observation))
@@ -109,4 +109,13 @@ g3 <- (ggplot(msumdat,aes(x=observation,y=efficiency,color=platform,group=platfo
        + ggtitle("Performance")
 )
 
-g3
+
+
+g4 <- (ggplot(msumdat,aes(x=observation,y=coverage,color=platform,group=platform,shape=parameter,alpha=observation))
+       + geom_point(size=4)
+       + facet_grid(type~process)
+       + theme_bw()
+       + ggtitle("Performance")
+)
+
+
