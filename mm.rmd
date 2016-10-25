@@ -17,7 +17,7 @@ $\theta = \frac{1}{(1-p)}$
 
 $\kappa = \theta np$
 
-### Beta-binomial($n,\alpha,\beta$) where  $\alpha, \beta$ are shape parameters and _n_ is the size. Alternatively, the Beta-binomial can be reparameterized $BB(n, p, \delta)$ where _p_ is the sum of $\alpha, \beta$ and $\delta$ is a dispersion parameter.
+### Beta-binomial($n,\alpha,\beta$) where  $\alpha, \beta$ are shape parameters and _n_ is the size. Alternatively, the Beta-binomial can be reparameterized $BB(n, p, \delta)$ where $\delta = \alpha + \beta, \alpha=\delta p, \beta = \delta (1-p)$, $\delta$ is a dispersion parameter. 
 
 $\frac{\kappa}{\theta} = \frac{n\alpha}{\alpha + \beta}$
 
